@@ -1,0 +1,31 @@
+firefox:
+  type: application
+  executable: firefox
+  aliases:
+    - firefox
+    - navegador
+
+github:
+  type: website
+  url: https://github.com
+  aliases:
+    - github
+
+descargas:
+  type: folder
+  path: ~/Downloads
+  aliases:
+    - downloads
+    - descargas
+
+documentos:
+  type: folder
+  path: ~/Documents
+  aliases:
+    - documentos
+
+jarvis:
+  type: project
+  path: ~/Projects/jarvis-ai
+  aliases:
+    - proyecto jarvis
