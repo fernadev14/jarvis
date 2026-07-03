@@ -40,3 +40,14 @@ terminal:
     linux: gnome-terminal
     windows: cmd.exe
     macos: Terminal
+
+brave:
+  aliases:
+    - brave
+    - brave browser
+    - navegador brave
+
+  executable:
+    linux: brave-browser
+    windows: brave.exe
+    macos: Brave Browser

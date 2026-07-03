@@ -1,24 +1,23 @@
-from jarvis.core.intent import Intent
-from jarvis.platforms.linux import LinuxPlatform
+from jarvis.actions.open_application import OpenApplicationAction
+from jarvis.actions.registry import ActionRegistry
 
 
 class ActionManager:
 
     def __init__(self):
 
-        self.platform = LinuxPlatform()
+        self.registry = ActionRegistry()
 
-    def execute(self, intent, message):
+        self.registry.register(
+            OpenApplicationAction()
+        )
 
-        if intent == Intent.OPEN_APP:
+    def execute(self, request):
 
-            app = message.replace("abre", "").strip()
+        action = self.registry.get(request.intent)
 
-            ok = self.platform.open_application(app)
+        if action is None:
 
-            if ok:
-                return f"He abierto {app}."
+            return None
 
-            return f"No encontré la aplicación {app}."
-
-        return "Acción no implementada."
+        return action.execute(request)

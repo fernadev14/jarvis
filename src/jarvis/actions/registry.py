@@ -1,6 +1,3 @@
-from jarvis.core.intent import Intent
-
-
 class ActionRegistry:
 
     def __init__(self):

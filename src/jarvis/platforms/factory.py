@@ -21,4 +21,4 @@ class PlatformFactory:
         if system == "Darwin":
             return MacOSPlatform()
 
-        raise RuntimeError(f"Sistema operativo no soportado: {system}")
+        raise RuntimeError(f"Sistema no soportado: {system}")

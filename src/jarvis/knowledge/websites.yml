@@ -1,0 +1,23 @@
+youtube:
+  aliases:
+    - youtube
+
+  url: https://youtube.com
+
+github:
+  aliases:
+    - github
+
+  url: https://github.com
+
+chatgpt:
+  aliases:
+    - chatgpt
+
+  url: https://chatgpt.com
+
+gmail:
+  aliases:
+    - gmail
+
+  url: https://mail.google.com

@@ -16,10 +16,12 @@ class Assistant:
 
     def chat(self, message: str):
 
-        intent = self.planner.detect(message)
+        request = self.planner.detect(message)
 
-        if intent != Intent.CHAT:
+        if request.intent != Intent.CHAT:
 
-            return self.actions.execute(intent, message)
+            result = self.actions.execute(request)
+
+            return result.message
 
         return self.brain.ask(message)
