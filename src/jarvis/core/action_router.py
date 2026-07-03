@@ -1,17 +1,27 @@
 from jarvis.actions.open_application import OpenApplicationAction
 from jarvis.actions.open_website import OpenWebsiteAction
+from jarvis.nlu.understanding import Understanding
 
 
 class ActionRouter:
 
-    def init(self):
+    def __init__(self):
 
-        self.routes = {
-            ("open", "application"): OpenApplicationAction(),
-            ("open", "website"): OpenWebsiteAction(),
-        }
+        self.routes = {}
 
-    def route(self, understanding):
+        self.register(OpenApplicationAction())
+        self.register(OpenWebsiteAction())
+
+    def register(self, action):
+
+        key = (
+            action.intent,
+            action.entity_type,
+        )
+
+        self.routes[key] = action
+
+    def route(self, understanding: Understanding):
 
         key = (
             understanding.intent,

@@ -6,21 +6,32 @@ from jarvis.platforms.base import Platform
 
 class LinuxPlatform(Platform):
 
-    def open_application(self, app: str) -> bool:
+    def open_application(self, executable: str) -> bool:
 
-        executable = shutil.which(app)
+        path = shutil.which(executable)
 
-        if executable is None:
+        if path is None:
             return False
 
-        subprocess.Popen([executable])
+        subprocess.Popen(
+            [path],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
 
         return True
 
-    def shutdown(self) -> bool:
+    def open_url(self, url: str) -> bool:
 
-        return False
+        opener = shutil.which("xdg-open")
 
-    def restart(self) -> bool:
+        if opener is None:
+            return False
 
-        return False
+        subprocess.Popen(
+            [opener, url],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        return True

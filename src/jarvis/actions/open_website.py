@@ -1,10 +1,17 @@
 from jarvis.actions.base import Action
-from jarvis.models.action_result import ActionResult
 from jarvis.knowledge.websites import WebsiteRegistry
-import webbrowser
+from jarvis.models.action_result import ActionResult
+from jarvis.nlu.understanding import EntityType
+from jarvis.platforms.factory import PlatformFactory
 
 
 class OpenWebsiteAction(Action):
+
+    def __init__(self):
+
+        self.registry = WebsiteRegistry()
+
+        self.platform = PlatformFactory.create()
 
     @property
     def intent(self):
@@ -12,20 +19,29 @@ class OpenWebsiteAction(Action):
 
     @property
     def entity_type(self):
-        return "website"
+        return EntityType.WEBSITE
 
     def execute(self, understanding):
-        registry = WebsiteRegistry()
-        site = registry.find(understanding.entity)
+
+        site = self.registry.find(understanding.entity)
+
         if site is None:
+
             return ActionResult(
                 success=False,
-                message="No conozco ese sitio web.",
+                message=f"No conozco el sitio '{understanding.entity}'.",
             )
 
-        webbrowser.open(site["url"])
-        return ActionResult(
-            success=True,
-            message=f"Abriendo {understanding.entity}.",
+        ok = self.platform.open_url(site["url"])
 
+        if ok:
+
+            return ActionResult(
+                success=True,
+                message=f"Abriendo {understanding.entity}.",
+            )
+
+        return ActionResult(
+            success=False,
+            message="No pude abrir el navegador.",
         )

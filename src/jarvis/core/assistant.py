@@ -1,7 +1,6 @@
-from jarvis.core.action_manager import ActionManager
+from jarvis.core.action_router import ActionRouter
 from jarvis.core.brain import Brain
-from jarvis.core.intent import Intent
-from jarvis.core.planner import Planner
+from jarvis.nlu.language_understanding import LanguageUnderstanding
 
 
 class Assistant:
@@ -10,17 +9,19 @@ class Assistant:
 
         self.brain = Brain()
 
-        self.planner = Planner()
+        self.nlu = LanguageUnderstanding()
 
-        self.actions = ActionManager()
+        self.router = ActionRouter()
 
     def chat(self, message: str):
 
-        request = self.planner.detect(message)
+        understanding = self.nlu.understand(message)
 
-        if request.intent != Intent.CHAT:
+        action = self.router.route(understanding)
 
-            result = self.actions.execute(request)
+        if action:
+
+            result = action.execute(understanding)
 
             return result.message
 
