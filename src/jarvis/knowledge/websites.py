@@ -13,10 +13,7 @@ class WebsiteRegistry:
 
     def load(self):
 
-        file = (
-            Path(__file__).parent
-            / "websites.yml"
-        )
+        file = Path(__file__).parent / "websites.yml"
 
         with open(file, "r", encoding="utf8") as f:
 
@@ -28,10 +25,12 @@ class WebsiteRegistry:
 
         for name, info in self.websites.items():
 
-            if text == name:
-                return info
+            if text == name or text in info["aliases"]:
 
-            if text in info["aliases"]:
-                return info
+                return {
+                    "name": name,
+                    "url": info["url"],
+                    "aliases": info["aliases"],
+                }
 
         return None

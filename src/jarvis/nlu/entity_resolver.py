@@ -1,7 +1,7 @@
 from jarvis.knowledge.applications import ApplicationRegistry
 from jarvis.knowledge.websites import WebsiteRegistry
-
-from jarvis.nlu.understanding import EntityType
+from jarvis.models.resolved_entity import ResolvedEntity
+from jarvis.models.entity_type import EntityType
 
 
 class EntityResolver:
@@ -10,16 +10,28 @@ class EntityResolver:
 
         self.apps = ApplicationRegistry()
 
-        self.webs = WebsiteRegistry()
+        self.websites = WebsiteRegistry()
 
-    def resolve(self, entity: str):
+    def resolve(self, entity: str) -> ResolvedEntity | None:
 
-        if self.apps.find(entity):
+        app = self.apps.find(entity)
 
-            return EntityType.APPLICATION
+        if app is not None:
 
-        if self.webs.find(entity):
+            return ResolvedEntity(
+                name=app.name,
+                entity_type=EntityType.APPLICATION,
+                executable=app.executable,
+            )
 
-            return EntityType.WEBSITE
+        site = self.websites.find(entity)
 
-        return EntityType.UNKNOWN
+        if site is not None:
+
+            return ResolvedEntity(
+                name=site["name"],
+                entity_type=EntityType.WEBSITE,
+                url=site["url"],
+            )
+
+        return None

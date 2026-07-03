@@ -1,10 +1,14 @@
 from jarvis.actions.base import Action
-from jarvis.knowledge.applications import ApplicationRegistry
 from jarvis.models.action_result import ActionResult
+from jarvis.models.entity_type import EntityType
 from jarvis.platforms.factory import PlatformFactory
 
 
 class OpenApplicationAction(Action):
+
+    def __init__(self):
+
+        self.platform = PlatformFactory.create()
 
     @property
     def intent(self):
@@ -12,35 +16,31 @@ class OpenApplicationAction(Action):
 
     @property
     def entity_type(self):
-        return "application"
-
-    def __init__(self):
-
-        self.registry = ApplicationRegistry()
-
-        self.platform = PlatformFactory.create()
+        return EntityType.APPLICATION
 
     def execute(self, understanding):
 
-        app = self.registry.find(understanding.entity)
+        entity = understanding.resolved
 
-        if app is None:
+        if entity is None:
 
             return ActionResult(
                 success=False,
-                message=f"No conozco la aplicación '{understanding.entity}'.",
+                message="No conozco esa aplicación.",
             )
 
-        ok = self.platform.open_application(app.executable)
+        ok = self.platform.open_application(
+            entity.executable
+        )
 
         if ok:
 
             return ActionResult(
                 success=True,
-                message=f"He abierto {app.name}.",
+                message=f"He abierto {entity.name}.",
             )
 
         return ActionResult(
             success=False,
-            message=f"No pude abrir {app.name}.",
+            message=f"No pude abrir {entity.name}.",
         )

@@ -1,19 +1,7 @@
-from enum import Enum
-
 from pydantic import BaseModel
 
-
-class EntityType(str, Enum):
-
-    APPLICATION = "application"
-
-    WEBSITE = "website"
-
-    LOCATION = "location"
-
-    FILE = "file"
-
-    UNKNOWN = "unknown"
+from jarvis.models.entity_type import EntityType
+from jarvis.models.resolved_entity import ResolvedEntity
 
 
 class Understanding(BaseModel):
@@ -23,3 +11,5 @@ class Understanding(BaseModel):
     entity: str
 
     entity_type: EntityType
+
+    resolved: ResolvedEntity | None = None
