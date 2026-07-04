@@ -1,4 +1,5 @@
 from pathlib import Path
+from jarvis.knowledge.types import KnowledgeType
 
 import yaml
 
@@ -32,7 +33,7 @@ class KnowledgeRegistry:
 
             self.resources[name] = KnowledgeResource(
                 name=name,
-                type=info["type"],
+                type=KnowledgeType(info["type"]),
                 aliases=info.get("aliases", []),
                 executable=info.get("executable"),
                 url=info.get("url"),

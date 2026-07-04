@@ -5,10 +5,13 @@ registry = KnowledgeRegistry()
 tests = [
     "firefox",
     "google",
-    "visual",
     "github",
     "youtube",
-    "hola",
+    "descargas",
+    "documentos",
+    "escritorio",
+    "imagenes",
+    "musica",
 ]
 
 for test in tests:

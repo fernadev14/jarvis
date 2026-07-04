@@ -32,3 +32,46 @@ youtube:
   url: https://youtube.com
   aliases:
     - youtube
+
+descargas:
+  type: folder
+  path: ~/Downloads
+  aliases:
+    - descargas
+    - downloads
+
+documentos:
+  type: folder
+  path: ~/Documents
+  aliases:
+    - documentos
+    - documents
+
+escritorio:
+  type: folder
+  path: ~/Desktop
+  aliases:
+    - escritorio
+    - desktop
+
+imagenes:
+  type: folder
+  path: ~/Pictures
+  aliases:
+    - imagenes
+    - imágenes
+    - pictures
+
+musica:
+  type: folder
+  path: ~/Music
+  aliases:
+    - musica
+    - música
+    - music
+
+videos:
+  type: folder
+  path: ~/Videos
+  aliases:
+    - videos

@@ -1,3 +1,4 @@
+from pathlib import Path
 from jarvis.actions.base import Action
 from jarvis.models.action_result import ActionResult
 from jarvis.models.resource_type import ResourceType
@@ -39,6 +40,12 @@ class OpenResourceAction(Action):
 
             ok = self.platform.open_url(
                 resource.url
+            )
+
+        elif resource.resource_type == ResourceType.FOLDER:
+            path = Path(resource.path).expanduser()
+            ok = self.platform.open_folder(
+                str(path)
             )
 
         else:
