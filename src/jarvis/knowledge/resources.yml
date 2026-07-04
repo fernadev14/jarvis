@@ -75,3 +75,11 @@ videos:
   path: ~/Videos
   aliases:
     - videos
+
+papelera:
+  type: folder
+  path: ~/.local/share/Trash/files
+  aliases:
+    - papelera
+    - trash
+    - basura

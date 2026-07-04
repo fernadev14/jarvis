@@ -48,8 +48,12 @@ class OpenResourceAction(Action):
                 str(path)
             )
 
-        else:
+        elif resource.resource_type == ResourceType.FILE:
+            ok = self.platform.open_file(
+                resource.path
+            )
 
+        else:
             return ActionResult(
                 success=False,
                 message=f"Todavía no puedo abrir recursos de tipo '{resource.resource_type.value}'.",

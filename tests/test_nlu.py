@@ -5,8 +5,8 @@ nlu = LanguageUnderstanding()
 tests = [
     "abre firefox",
     "abre youtube",
-    "abre github",
-    "abre visual",
+    "abre descargas",
+    "abre contrato.pdf",
     "hola",
 ]
 
