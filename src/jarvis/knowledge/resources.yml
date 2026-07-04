@@ -5,27 +5,30 @@ firefox:
     - firefox
     - navegador
 
+chrome:
+  type: application
+  executable: google-chrome
+  aliases:
+    - chrome
+    - google
+    - google chrome
+
+vscode:
+  type: application
+  executable: code
+  aliases:
+    - code
+    - visual
+    - visual studio code
+
 github:
   type: website
   url: https://github.com
   aliases:
     - github
 
-descargas:
-  type: folder
-  path: ~/Downloads
+youtube:
+  type: website
+  url: https://youtube.com
   aliases:
-    - downloads
-    - descargas
-
-documentos:
-  type: folder
-  path: ~/Documents
-  aliases:
-    - documentos
-
-jarvis:
-  type: project
-  path: ~/Projects/jarvis-ai
-  aliases:
-    - proyecto jarvis
+    - youtube
