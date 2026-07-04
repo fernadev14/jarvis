@@ -1,5 +1,5 @@
-import shutil
 import subprocess
+# import webbrowser
 
 from jarvis.platforms.base import Platform
 
@@ -7,31 +7,46 @@ from jarvis.platforms.base import Platform
 class LinuxPlatform(Platform):
 
     def open_application(self, executable: str) -> bool:
-
-        path = shutil.which(executable)
-
-        if path is None:
+        try:
+            subprocess.Popen(
+                [executable],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return True
+        except Exception:
             return False
-
-        subprocess.Popen(
-            [path],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-
-        return True
 
     def open_url(self, url: str) -> bool:
-
-        opener = shutil.which("xdg-open")
-
-        if opener is None:
+        try:
+            subprocess.Popen(
+                ["xdg-open", url],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return True
+        except Exception:
             return False
 
-        subprocess.Popen(
-            [opener, url],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
+    def open_folder(self, path: str) -> bool:
+        try:
+            subprocess.Popen(
+                ["xdg-open", path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return True
 
-        return True
+        except Exception:
+            return False
+
+    def open_file(self, path: str) -> bool:
+        try:
+            subprocess.Popen(
+                ["xdg-open", path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return True
+        except Exception:
+            return False

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from jarvis.models.entity_type import EntityType
-from jarvis.models.resolved_entity import ResolvedEntity
+from jarvis.models.resource import Resource
+from jarvis.models.resource_type import ResourceType
 
 
 class Understanding(BaseModel):
@@ -10,6 +10,6 @@ class Understanding(BaseModel):
 
     entity: str
 
-    entity_type: EntityType
+    resource_type: ResourceType
 
-    resolved: ResolvedEntity | None = None
+    resource: Resource | None = None

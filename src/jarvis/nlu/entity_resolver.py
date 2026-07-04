@@ -1,7 +1,7 @@
 from jarvis.knowledge.applications import ApplicationRegistry
 from jarvis.knowledge.websites import WebsiteRegistry
-from jarvis.models.resolved_entity import ResolvedEntity
-from jarvis.models.entity_type import EntityType
+from jarvis.models.resource import Resource
+from jarvis.models.resource_type import ResourceType
 
 
 class EntityResolver:
@@ -12,15 +12,15 @@ class EntityResolver:
 
         self.websites = WebsiteRegistry()
 
-    def resolve(self, entity: str) -> ResolvedEntity | None:
+    def resolve(self, entity: str) -> Resource | None:
 
         app = self.apps.find(entity)
 
         if app is not None:
 
-            return ResolvedEntity(
+            return Resource(
                 name=app.name,
-                entity_type=EntityType.APPLICATION,
+                resource_type=ResourceType.APPLICATION,
                 executable=app.executable,
             )
 
@@ -28,9 +28,9 @@ class EntityResolver:
 
         if site is not None:
 
-            return ResolvedEntity(
+            return Resource(
                 name=site["name"],
-                entity_type=EntityType.WEBSITE,
+                resource_type=ResourceType.WEBSITE,
                 url=site["url"],
             )
 

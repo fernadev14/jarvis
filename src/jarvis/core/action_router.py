@@ -1,5 +1,4 @@
-from jarvis.actions.open_application import OpenApplicationAction
-from jarvis.actions.open_website import OpenWebsiteAction
+from jarvis.actions.open_resource import OpenResourceAction
 from jarvis.nlu.understanding import Understanding
 
 
@@ -7,25 +6,12 @@ class ActionRouter:
 
     def __init__(self):
 
-        self.routes = {}
-
-        self.register(OpenApplicationAction())
-        self.register(OpenWebsiteAction())
-
-    def register(self, action):
-
-        key = (
-            action.intent,
-            action.entity_type,
-        )
-
-        self.routes[key] = action
+        self.actions = {
+            "open": OpenResourceAction(),
+        }
 
     def route(self, understanding: Understanding):
 
-        key = (
-            understanding.intent,
-            understanding.entity_type.value,
+        return self.actions.get(
+            understanding.intent
         )
-
-        return self.routes.get(key)
