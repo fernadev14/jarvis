@@ -1,59 +1,50 @@
-v0.5
+# Roadmap
 
-✓ Chat con IA
+## v0.5
 
-✓ Abrir aplicaciones
+- Chat with Ollama
+- Open applications
+- Open websites
+- Modular architecture
 
-✓ Abrir webs
+---
 
-------------------
+## v0.6
 
-v0.6
+- Open folders
+- Open files
+- Open projects
+- Unified Resource Registry
 
-□ Carpetas
+---
 
-□ Archivos
+## v0.7
 
-□ Recursos
+- Speech to Text
+- Text to Speech
+- Wake Word
 
-------------------
+---
 
-v0.7
+## v0.8
 
-□ Voz
+- Memory
+- Context Awareness
+- Conversation History
 
-□ Wake Word
+---
 
-□ TTS
+## v0.9
 
-------------------
+- Plugin System
+- Automation
+- Scheduling
 
-v0.8
+---
 
-□ Memoria
+## v1.0
 
-□ Conversaciones
-
-□ Contexto
-
-------------------
-
-v0.9
-
-□ Plugins
-
-□ Automatización
-
-□ API
-
-------------------
-
-v1.0
-
-□ Multiplataforma
-
-□ Instalador
-
-□ UI
-
-□ Publicación
+- GUI
+- Installer
+- Cross Platform
+- Open Source Release

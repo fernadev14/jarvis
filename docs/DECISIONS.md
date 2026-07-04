@@ -1,15 +1,41 @@
-DECISION-001
-  Jarvis nunca utilizará webbrowser.
+# Architecture Decisions
 
-  Toda interacción con el sistema operativo se realizará mediante las herramientas nativas de cada plataforma:
+## ADR-001
 
-  Linux → xdg-open
-  Windows → os.startfile()
-  macOS → open
+Use a single OpenResourceAction instead of one action per resource type.
 
-  Con esto:
+Reason:
 
-  ✔️ evitamos mensajes como Opening in existing browser session.
-  ✔️ el comportamiento es consistente entre plataformas.
-  ✔️ mantenemos toda la interacción con el SO encapsulada en la capa Platform.
+The user always performs the same verb:
 
+Open something.
+
+---
+
+## ADR-002
+
+Use Platform abstraction.
+
+Reason:
+
+The rest of the application must never know if it is running on Linux, Windows or macOS.
+
+---
+
+## ADR-003
+
+Knowledge must be data-driven.
+
+Reason:
+
+Applications, websites and future resources should be defined in YAML instead of code.
+
+---
+
+## ADR-004
+
+Local AI first.
+
+Reason:
+
+Jarvis should work completely offline whenever possible using Ollama.

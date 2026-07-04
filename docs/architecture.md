@@ -1,37 +1,80 @@
-Usuario
+# Architecture
 
-↓
+## Overview
 
-UI
+Jarvis AI is a modular AI assistant designed to run locally using Ollama.
 
-↓
+The project is organized around independent layers, where each module has a single responsibility.
 
+```
+User
+   │
+   ▼
+Console / Voice / API
+   │
+   ▼
 Assistant
+   │
+   ├──────────────┐
+   ▼              ▼
+Brain            NLU
+                  │
+                  ▼
+          Knowledge Registry
+                  │
+                  ▼
+            Action Router
+                  │
+                  ▼
+               Actions
+                  │
+                  ▼
+              Platform
+                  │
+      ┌───────────┴───────────┐
+      ▼           ▼           ▼
+    Linux      Windows      macOS
+```
 
-↓
+---
 
-NLU
+## Modules
 
-↓
+### Assistant
 
-Knowledge
+Coordinates the entire system.
 
-↓
+### Brain
 
-Planner
+Communicates with the language model.
 
-↓
+### NLU
 
-ActionRouter
+Transforms user text into structured understanding.
 
-↓
+### Knowledge
 
-Actions
+Stores information about applications, websites, folders and future resources.
 
-↓
+### Action Router
 
-Platform
+Chooses which action should be executed.
 
-↓
+### Actions
 
-Sistema Operativo
+Execute the requested operation.
+
+### Platform
+
+Interacts with the operating system.
+
+---
+
+## Design Principles
+
+- Single Responsibility
+- Dependency Injection where appropriate
+- Modular architecture
+- Platform abstraction
+- Local-first AI
+- Extensible through plugins
