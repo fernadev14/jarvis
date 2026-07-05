@@ -1,32 +1,54 @@
+import os
 from pathlib import Path
 
 
 class FileFinder:
 
-    def __init__(self):
+    IGNORED_DIRECTORIES = {
+        ".git",
+        ".venv",
+        "venv",
+        "__pycache__",
+        "node_modules",
+        ".idea",
+        ".vscode",
+        "dist",
+        "build",
+    }
 
-        self.search_paths = [
-            Path.home() / "Documents",
-            Path.home() / "Downloads",
-            Path.home() / "Desktop",
-        ]
+    def __init__(self, search_paths: list[Path] | None = None):
 
-    def find(self, filename: str) -> Path | None:
+        if search_paths is None:
 
-        filename = filename.lower().strip()
+            search_paths = [
+                Path.home() / "Documents",
+                Path.home() / "Downloads",
+                Path.home() / "Desktop",
+            ]
 
-        for directory in self.search_paths:
+        self.search_paths = search_paths
 
-            if not directory.exists():
+    def find(self) -> list[Path]:
+
+        results = []
+
+        for root in self.search_paths:
+
+            if not root.exists():
                 continue
 
-            for file in directory.rglob("*"):
+            for current_root, dirs, files in os.walk(root):
 
-                if not file.is_file():
-                    continue
+                dirs[:] = [
+                    d
+                    for d in dirs
+                    if d not in self.IGNORED_DIRECTORIES
+                ]
 
-                if file.name.lower() == filename:
+                for file in files:
 
-                    return file
+                    results.append(
+                        Path(current_root) / file
+                    )
 
-        return None
+        return results

@@ -1,10 +1,35 @@
+from jarvis.models.intent_match import IntentMatch
+from jarvis.nlu.intent_registry import IntentRegistry
+
+
 class IntentDetector:
 
-    def detect(self, text: str):
+    def __init__(self):
 
-        text = text.lower()
+        self.registry = IntentRegistry()
 
-        if text.startswith("abre "):
-            return "open"
+    def detect(self, text: str) -> IntentMatch:
 
-        return "chat"
+        text = text.lower().strip()
+
+        patterns = self.registry.get_patterns()
+
+        for intent, pattern_list in patterns.items():
+
+            for pattern in pattern_list:
+
+                if text.startswith(pattern):
+
+                    return IntentMatch(
+                        intent=intent,
+                        pattern=pattern,
+                        start=0,
+                        end=len(pattern),
+                    )
+
+        return IntentMatch(
+            intent="chat",
+            pattern="",
+            start=0,
+            end=0,
+        )

@@ -6,8 +6,18 @@ tests = [
     "abre firefox",
     "abre youtube",
     "abre descargas",
-    "abre contrato.pdf",
+    "abre contrato",
     "hola",
+    "abreme firefox",
+    "abrir firefox",
+    "abrirme outlook",
+    "buenas",
+    "hey",
+    "puedes abrir firefox",
+    "podrias abrir mysql",
+    "quiero abrir youtube",
+    "necesito abrir google",
+    "me ayudas a abrir github",
 ]
 
 for t in tests:
