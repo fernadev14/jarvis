@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from jarvis.models.token_kind import TokenKind
+
 
 class Token(BaseModel):
 
@@ -8,3 +10,5 @@ class Token(BaseModel):
     normalized: str
 
     index: int
+
+    kind: TokenKind = TokenKind.UNKNOWN

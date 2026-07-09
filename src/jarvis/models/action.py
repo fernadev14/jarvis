@@ -2,11 +2,9 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class Sentence:
+class Action:
 
     intent: str
-
-    verb: str
 
     target: str
 
