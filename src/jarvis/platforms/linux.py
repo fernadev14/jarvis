@@ -1,3 +1,4 @@
+from pathlib import Path
 import subprocess
 # import webbrowser
 
@@ -30,18 +31,19 @@ class LinuxPlatform(Platform):
 
     def open_folder(self, path: str) -> bool:
         try:
+            path = str(Path(path).expanduser())
             subprocess.Popen(
                 ["xdg-open", path],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
             )
             return True
-
         except Exception:
             return False
 
     def open_file(self, path: str) -> bool:
         try:
+            path = str(Path(path).expanduser())
             subprocess.Popen(
                 ["xdg-open", path],
                 stdout=subprocess.DEVNULL,

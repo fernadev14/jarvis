@@ -1,6 +1,6 @@
-from jarvis.core.action_router import ActionRouter
 from jarvis.core.brain import Brain
 from jarvis.nlu.language_understanding import LanguageUnderstanding
+from jarvis.skills.manager import SkillManager
 
 
 class Assistant:
@@ -11,17 +11,17 @@ class Assistant:
 
         self.nlu = LanguageUnderstanding()
 
-        self.router = ActionRouter()
+        self.skills = SkillManager()
 
     def chat(self, message: str):
 
         understanding = self.nlu.understand(message)
 
-        action = self.router.route(understanding)
+        skill = self.skills.find(understanding)
 
-        if action:
+        if skill:
 
-            result = action.execute(understanding)
+            result = skill.execute(understanding)
 
             return result.message
 

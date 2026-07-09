@@ -5,8 +5,6 @@ class IntentMatch(BaseModel):
 
     intent: str
 
-    pattern: str
+    verb: str
 
-    start: int
-
-    end: int
+    verb_index: int

@@ -13,6 +13,10 @@ tests = [
     "el documento contrato",
     "la aplicacion firefox",
     "la página github",
+    "el archivo que se llama contrato",
+    "la carpeta que se llama musica",
+    "github por favor",
+    "el archivo que se llama contrato",
 ]
 
 for test in tests:

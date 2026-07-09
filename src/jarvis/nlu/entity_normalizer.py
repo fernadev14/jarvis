@@ -1,57 +1,24 @@
+from jarvis.nlu.normalization_words import (
+    STOP_PHRASES,
+    STOP_WORDS,
+)
+
+
 class EntityNormalizer:
-
-    STOP_WORDS = {
-        # artículos
-        "el",
-        "la",
-        "los",
-        "las",
-        "un",
-        "una",
-        "unos",
-        "unas",
-
-        # posesivos
-        "mi",
-        "mis",
-        "tu",
-        "tus",
-        "su",
-        "sus",
-
-        # preposiciones
-        "de",
-        "del",
-        "para",
-        "por",
-        "con",
-
-        # palabras de ruido
-        "carpeta",
-        "archivo",
-        "archivos",
-        "documento",
-        "documentos",
-        "fichero",
-        "ficheros",
-        "app",
-        "aplicacion",
-        "aplicación",
-        "programa",
-        "sitio",
-        "pagina",
-        "página",
-        "web",
-    }
 
     def normalize(self, entity: str) -> str:
 
-        words = entity.lower().split()
+        entity = entity.lower().strip()
+
+        for phrase in STOP_PHRASES:
+            entity = entity.replace(phrase, " ")
+
+        words = entity.split()
 
         words = [
             word
             for word in words
-            if word not in self.STOP_WORDS
+            if word not in STOP_WORDS
         ]
 
         return " ".join(words).strip()

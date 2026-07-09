@@ -1,40 +1,23 @@
-from jarvis.files.search_engine import SearchEngine
-from jarvis.knowledge.registry import KnowledgeRegistry
-from jarvis.models.resource import Resource
-from jarvis.models.resource_type import ResourceType
+from jarvis.nlu.resolvers.file_resolver import FileResolver
+from jarvis.nlu.resolvers.knowledge_resolver import KnowledgeResolver
 
 
 class EntityResolver:
 
     def __init__(self):
 
-        self.registry = KnowledgeRegistry()
-        self.search_engine = SearchEngine()
+        self.resolvers = [
+            KnowledgeResolver(),
+            FileResolver(),
+        ]
 
-    def resolve(self, entity: str) -> Resource | None:
+    def resolve(self, entity: str):
 
-        # 1. Buscar recursos conocidos
-        resource = self.registry.find(entity)
+        for resolver in self.resolvers:
 
-        if resource is not None:
+            resource = resolver.resolve(entity)
 
-            return Resource(
-                name=resource.name,
-                resource_type=ResourceType(resource.type),
-                executable=resource.executable,
-                url=resource.url,
-                path=resource.path,
-            )
-
-        # 2. Buscar archivos
-        file = self.search_engine.search(entity)
-
-        if file is not None:
-
-            return Resource(
-                name=file.name,
-                resource_type=ResourceType.FILE,
-                path=str(file),
-            )
+            if resource is not None:
+                return resource
 
         return None

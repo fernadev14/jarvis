@@ -1,35 +1,40 @@
 from jarvis.models.intent_match import IntentMatch
-from jarvis.nlu.intent_registry import IntentRegistry
+from jarvis.models.token import Token
+from jarvis.nlu.lexicon import (
+    GREETING_WORDS,
+    OPEN_VERBS,
+)
 
 
 class IntentDetector:
 
-    def __init__(self):
+    def detect(
+        self,
+        tokens: list[Token],
+    ) -> IntentMatch:
 
-        self.registry = IntentRegistry()
+        for token in tokens:
 
-    def detect(self, text: str) -> IntentMatch:
+            if token.normalized in OPEN_VERBS:
 
-        text = text.lower().strip()
+                return IntentMatch(
+                    intent="open",
+                    verb=token.normalized,
+                    verb_index=token.index,
+                )
 
-        patterns = self.registry.get_patterns()
+        for token in tokens:
 
-        for intent, pattern_list in patterns.items():
+            if token.normalized in GREETING_WORDS:
 
-            for pattern in pattern_list:
-
-                if text.startswith(pattern):
-
-                    return IntentMatch(
-                        intent=intent,
-                        pattern=pattern,
-                        start=0,
-                        end=len(pattern),
-                    )
+                return IntentMatch(
+                    intent="chat",
+                    verb=token.normalized,
+                    verb_index=token.index,
+                )
 
         return IntentMatch(
             intent="chat",
-            pattern="",
-            start=0,
-            end=0,
+            verb="",
+            verb_index=-1,
         )

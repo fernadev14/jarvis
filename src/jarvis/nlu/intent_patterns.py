@@ -4,8 +4,11 @@ OPEN_PATTERNS = [
     "quiero abrir",
     "necesito abrir",
     "me ayudas a abrir",
+    "me ayudas abriendo",
     "abreme",
+    "abrime",
     "abrirme",
+    "abriendo",
     "abrir",
     "abre",
 ]
