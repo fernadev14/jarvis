@@ -43,5 +43,8 @@ STOP_WORDS = {
 
 STOP_PHRASES = [
     "que se llama",
+    "se llama",
+    "llamado",
+    "llamada",
     "por favor",
 ]

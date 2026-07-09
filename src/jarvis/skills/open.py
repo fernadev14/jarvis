@@ -35,7 +35,8 @@ class OpenSkill(Skill):
         elif resource.resource_type == ResourceType.WEBSITE:
 
             ok = self.platform.open_url(
-                resource.url
+                resource.url,
+                browser=understanding.tool,
             )
 
         elif resource.resource_type == ResourceType.FOLDER:

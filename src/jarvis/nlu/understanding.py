@@ -10,6 +10,12 @@ class Understanding(BaseModel):
 
     entity: str
 
-    resource_type: ResourceType
+    context: str = ""
+
+    tool: str = ""
+
+    location: str = ""
+
+    resource_type: ResourceType = ResourceType.UNKNOWN
 
     resource: Resource | None = None

@@ -13,7 +13,7 @@ class WindowsPlatform(Platform):
         except Exception:
             return False
 
-    def open_url(self, url: str) -> bool:
+    def open_url(self, url: str, browser: str = "",) -> bool:
         import os
         try:
             os.startfile(url)

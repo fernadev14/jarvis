@@ -1,50 +1,97 @@
 from jarvis.models.sentence import Sentence
-from jarvis.models.token import Token
-from jarvis.nlu.lexicon import GREETING_WORDS, OPEN_VERBS
+from jarvis.models.token_kind import TokenKind
+
+
+IGNORED_NOUNS = {
+    "aplicacion",
+    "archivo",
+    "carpeta",
+    "navegador",
+}
 
 
 class SentenceParser:
 
-    def parse(
-        self,
-        tokens: list[Token],
-    ) -> Sentence:
+    def parse(self, tokens):
 
-        sentence = Sentence(tokens=tokens)
+        verb = ""
+        target = ""
+        context = ""
+        tool = ""
+        location = ""
 
-        # Buscar el verbo principal
+        #
+        # Buscar verbo
+        #
         for token in tokens:
 
-            if token.normalized in OPEN_VERBS:
+            if token.kind == TokenKind.VERB:
 
-                sentence.verb = token.normalized
-                sentence.verb_index = token.index
-
+                verb = token.normalized
                 break
 
-        # Si no encontró verbo
-        if sentence.verb_index == -1:
+        #
+        # Buscar contexto
+        #
+        for token in tokens:
 
-            for token in tokens:
+            if token.kind == TokenKind.CONTEXT:
 
-                if token.normalized in GREETING_WORDS:
+                context = token.normalized
+                break
 
-                    sentence.verb = token.normalized
-                    sentence.verb_index = token.index
+        #
+        # Buscar herramienta
+        #
+        for i, token in enumerate(tokens):
 
-                    break
+            if token.normalized in {
+                "en",
+                "con",
+            }:
 
-        # Extraer el objeto (todo después del verbo)
-        if sentence.verb_index != -1:
+                if i + 1 < len(tokens):
 
-            words = []
+                    tool = tokens[i + 1].normalized
 
-            for token in tokens:
+        #
+        # Buscar ubicación
+        #
+        for i, token in enumerate(tokens):
 
-                if token.index > sentence.verb_index:
+            if token.normalized == "desde":
 
-                    words.append(token.text)
+                if i + 1 < len(tokens):
 
-            sentence.object = " ".join(words)
+                    location = tokens[i + 1].normalized
 
-        return sentence
+        #
+        # Buscar recurso
+        #
+        for token in tokens:
+
+            if token.kind != TokenKind.NOUN:
+                continue
+
+            if token.normalized in IGNORED_NOUNS:
+                continue
+
+            target = token.normalized
+            break
+
+        return Sentence(
+
+            intent="open",
+
+            verb=verb,
+
+            target=target,
+
+            context=context,
+
+            tool=tool,
+
+            location=location,
+
+            modifiers=[],
+        )

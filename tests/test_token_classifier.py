@@ -1,32 +1,22 @@
 from jarvis.nlu.text_preprocessor import TextPreprocessor
 from jarvis.nlu.tokenizer import Tokenizer
-from jarvis.nlu.sentence_parser import SentenceParser
 from jarvis.nlu.token_classifier import TokenClassifier
 
 preprocessor = TextPreprocessor()
 tokenizer = Tokenizer()
 classifier = TokenClassifier()
-parser = SentenceParser()
 
 tests = [
     "abre firefox",
-    "abreme firefox",
-    "puedes abrir firefox",
-    "quiero abrir github",
-    "hola",
+    "puedes abrir github",
     "firefox lo puedes abrir",
-    "el contrato puedes abrirlo",
-    "por favor firefox",
-    "github por favor",
-    "documentos por favor",
-    "el archivo llamado contrato",
+    "por favor abre documentos",
     "abre la aplicacion firefox",
     "abre la carpeta descargas",
     "abre el archivo contrato",
     "abre github en brave",
     "abre youtube con firefox",
-    "abre aula virtual en chrome",
-    "abre desde documentos contrato",
+    "el archivo llamado contrato",
 ]
 
 for text in tests:
@@ -35,10 +25,11 @@ for text in tests:
 
     print(text)
 
+    text = preprocessor.preprocess(text)
+
     tokens = tokenizer.tokenize(text)
 
     tokens = classifier.classify(tokens)
 
-    sentence = parser.parse(tokens)
-
-    print(sentence)
+    for token in tokens:
+        print(token)

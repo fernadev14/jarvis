@@ -18,6 +18,17 @@ tests = [
     "quiero abrir youtube",
     "necesito abrir google",
     "me ayudas a abrir github",
+    "firefox lo puedes abrir",
+    "el contrato puedes abrirlo",
+    "por favor firefox",
+    "github por favor",
+    "documentos por favor",
+    "el archivo llamado contrato",
+    "abre la aplicacion firefox",
+    "abre la carpeta descargas",
+    "abre el archivo contrato",
+    "abre github en brave",
+    "abre youtube con firefox",
 ]
 
 for t in tests:

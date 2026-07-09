@@ -18,15 +18,52 @@ class LinuxPlatform(Platform):
         except Exception:
             return False
 
-    def open_url(self, url: str) -> bool:
+    def open_url(
+        self,
+        url: str,
+        browser: str = "",
+    ) -> bool:
+
         try:
-            subprocess.Popen(
-                ["xdg-open", url],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
+
+            browser = browser.lower().strip()
+
+            browsers = {
+
+                "firefox": "firefox",
+
+                "chrome": "google-chrome",
+
+                "google": "google-chrome",
+
+                "brave": "brave-browser",
+
+                "edge": "microsoft-edge",
+
+            }
+
+            executable = browsers.get(browser)
+
+            if executable:
+
+                subprocess.Popen(
+                    [executable, url],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
+
+            else:
+
+                subprocess.Popen(
+                    ["xdg-open", url],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
+
             return True
+
         except Exception:
+
             return False
 
     def open_folder(self, path: str) -> bool:
