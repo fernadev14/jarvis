@@ -1,5 +1,6 @@
 from jarvis.search.matcher import Matcher
 from jarvis.search.result import SearchResult
+from jarvis.search.confidence import Confidence
 
 
 class Ranking:
@@ -24,13 +25,24 @@ class Ranking:
                 item,
             )
 
-            if score < 50:
+            confidence = self.confidence(score)
+
+            if confidence == Confidence.NONE:
                 continue
 
             results.append(
                 SearchResult(
                     item=item,
                     score=score,
+                    confidence=confidence,
+                )
+            )
+
+            results.append(
+                SearchResult(
+                    item=item,
+                    score=score,
+                    confidence=self.confidence(score),
                 )
             )
 
@@ -40,3 +52,16 @@ class Ranking:
         )
 
         return results
+
+    def confidence(self, score: float) -> Confidence:
+
+        if score >= 95:
+            return Confidence.HIGH
+
+        if score >= 80:
+            return Confidence.MEDIUM
+
+        if score >= 60:
+            return Confidence.LOW
+
+        return Confidence.NONE

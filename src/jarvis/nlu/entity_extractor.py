@@ -3,7 +3,7 @@ from jarvis.models.token_kind import TokenKind
 
 class EntityExtractor:
 
-    IGNORE = {
+    STOP_WORDS = {
         "el",
         "la",
         "los",
@@ -12,6 +12,20 @@ class EntityExtractor:
         "del",
         "por",
         "favor",
+        "puedes",
+        "podrias",
+        "quisiera",
+        "quiero",
+        "me",
+        "abre",
+        "abrir",
+        "abreme",
+        "abrime",
+    }
+
+    TOOL_WORDS = {
+        "en",
+        "con",
     }
 
     TOOL_CONNECTORS = {
@@ -37,7 +51,7 @@ class EntityExtractor:
 
             word = token.normalized
 
-            if word in self.IGNORE:
+            if word in self.STOP_WORDS:
                 continue
 
             #
@@ -66,13 +80,6 @@ class EntityExtractor:
             #
 
             if token.kind == TokenKind.CONTEXT:
-                continue
-
-            #
-            # descriptor
-            #
-
-            if token.kind == TokenKind.DESCRIPTOR:
                 continue
 
             #

@@ -2,16 +2,24 @@ from jarvis.search.scorers.alias import AliasScorer
 from jarvis.search.scorers.exact import ExactScorer
 from jarvis.search.scorers.fuzzy import FuzzyScorer
 
+from jarvis.search.preprocessing.normalizer import (
+    SearchNormalizer,
+)
+from jarvis.search.preprocessing.tokenizer import (
+    SearchTokenizer,
+)
+
 
 class Matcher:
 
     def __init__(self):
 
         self.exact = ExactScorer()
-
         self.alias = AliasScorer()
-
         self.fuzzy = FuzzyScorer()
+
+        self.normalizer = SearchNormalizer()
+        self.tokenizer = SearchTokenizer()
 
     def score(
         self,
@@ -19,32 +27,47 @@ class Matcher:
         item,
     ):
 
-        scores = [
+        query = self.normalizer.normalize(
+            query,
+        )
 
-            self.exact.score(
-                query,
-                item.name,
-            ),
+        query_tokens = self.tokenizer.tokenize(
+            query,
+        )
 
-            self.alias.score(
-                query,
-                item.aliases,
-            ),
+        candidates = [
 
-            self.fuzzy.score(
-                query,
-                item.name,
-            ),
+            item.name,
+
+            *item.aliases,
         ]
 
-        for alias in item.aliases:
+        best = 0
 
-            scores.append(
+        for candidate in candidates:
 
-                self.fuzzy.score(
-                    query,
-                    alias,
-                )
+            candidate = self.normalizer.normalize(
+                candidate,
             )
 
-        return max(scores)
+            candidate_tokens = self.tokenizer.tokenize(
+                candidate,
+            )
+
+            for query_word in query_tokens:
+
+                for candidate_word in candidate_tokens:
+
+                    score = self.fuzzy.score(
+
+                        query_word,
+
+                        candidate_word,
+                    )
+
+                    best = max(
+                        best,
+                        score,
+                    )
+
+        return best
