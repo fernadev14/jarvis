@@ -1,23 +1,33 @@
-from jarvis.files.search_engine import SearchEngine
+from jarvis.search.search import SearchEngine
 
 engine = SearchEngine()
 
-tests = [
+queries = [
 
-    "contrato",
+    "visual estudio code",
 
-    "factura",
+    "visul studio",
 
-    "imagen",
+    "firesfox",
 
-    "jarvis",
+    "chrom",
+
+    "goog",
+
+    "gpart",
+
+    "software y actualizaciones",
 
 ]
 
-for test in tests:
+for query in queries:
 
     print("-" * 40)
 
-    print(test)
+    print(query)
 
-    print(engine.search(test))
+    results = engine.search(query)
+
+    if results:
+
+        print(results[0])

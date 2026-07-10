@@ -1,6 +1,6 @@
 from pathlib import Path
 from jarvis.knowledge.types import KnowledgeType
-
+from rapidfuzz import fuzz
 import yaml
 
 from jarvis.knowledge.resource import KnowledgeResource
@@ -53,5 +53,37 @@ class KnowledgeRegistry:
             if text in resource.aliases:
 
                 return resource
+
+        return None
+
+    def find_best(self, text: str):
+
+        text = text.lower().strip()
+
+        best_resource = None
+        best_score = 0
+
+        for resource in self.resources.values():
+
+            candidates = [
+                resource.name,
+                *resource.aliases,
+            ]
+
+            for candidate in candidates:
+
+                score = fuzz.WRatio(
+                    text,
+                    candidate.lower(),
+                )
+
+                if score > best_score:
+
+                    best_score = score
+                    best_resource = resource
+
+        if best_score >= 70:
+
+            return best_resource
 
         return None

@@ -17,3 +17,5 @@ class Sentence:
     location: str = ""
 
     modifiers: list[str] = field(default_factory=list)
+
+    target_tokens: list[str] = field(default_factory=list)

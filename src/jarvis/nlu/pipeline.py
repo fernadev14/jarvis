@@ -4,11 +4,13 @@ from jarvis.nlu.text_preprocessor import TextPreprocessor
 from jarvis.nlu.tokenizer import Tokenizer
 from jarvis.nlu.token_classifier import TokenClassifier
 from jarvis.nlu.sentence_parser import SentenceParser
+from jarvis.nlu.entity_extractor import EntityExtractor
 from jarvis.nlu.action_builder import ActionBuilder
-from jarvis.nlu.context_extractor import ContextExtractor
 from jarvis.nlu.entity_normalizer import EntityNormalizer
-from jarvis.nlu.entity_resolver import EntityResolver
 from jarvis.nlu.understanding import Understanding
+from jarvis.search.search import SearchEngine
+
+from jarvis.platforms.browser_normalizer import BrowserNormalizer
 
 
 class Pipeline:
@@ -23,13 +25,15 @@ class Pipeline:
 
         self.parser = SentenceParser()
 
-        self.action_builder = ActionBuilder()
+        self.entity_extractor = EntityExtractor()
 
-        self.context_extractor = ContextExtractor()
+        self.action_builder = ActionBuilder()
 
         self.normalizer = EntityNormalizer()
 
-        self.resolver = EntityResolver()
+        self.browser_normalizer = BrowserNormalizer()
+
+        self.search = SearchEngine()
 
     def run(self, text: str) -> Understanding:
 
@@ -41,18 +45,23 @@ class Pipeline:
 
         sentence = self.parser.parse(tokens)
 
+        entities = self.entity_extractor.extract(tokens)
+
+        sentence.target = entities["target"]
+        sentence.tool = entities["tool"]
+        sentence.location = entities["location"]
+
         action = self.action_builder.build(sentence)
-
-        info = self.context_extractor.extract(tokens)
-
-        action.context = info["context"]
-        action.tool = info["browser"]
 
         action.target = self.normalizer.normalize(
             action.target,
         )
 
-        resource = self.resolver.resolve(
+        action.tool = self.browser_normalizer.normalize(
+            action.tool,
+        )
+
+        resource = self.search.resolve(
             action.target,
         )
 
@@ -65,18 +74,11 @@ class Pipeline:
         print(action)
 
         return Understanding(
-
             intent=action.intent,
-
             entity=action.target,
-
             context=action.context,
-
             tool=action.tool,
-
             location=action.location,
-
             resource_type=resource_type,
-
             resource=resource,
         )

@@ -26,28 +26,10 @@ class LinuxPlatform(Platform):
 
         try:
 
-            browser = browser.lower().strip()
-
-            browsers = {
-
-                "firefox": "firefox",
-
-                "chrome": "google-chrome",
-
-                "google": "google-chrome",
-
-                "brave": "brave-browser",
-
-                "edge": "microsoft-edge",
-
-            }
-
-            executable = browsers.get(browser)
-
-            if executable:
+            if browser:
 
                 subprocess.Popen(
-                    [executable, url],
+                    [browser, url],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                 )

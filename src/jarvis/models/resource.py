@@ -5,6 +5,8 @@ from jarvis.models.resource_type import ResourceType
 
 class Resource(BaseModel):
 
+    id: str
+
     name: str
 
     resource_type: ResourceType
