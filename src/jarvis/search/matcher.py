@@ -1,72 +1,50 @@
-from difflib import SequenceMatcher
-
-from jarvis.search.item import SearchItem
+from jarvis.search.scorers.alias import AliasScorer
+from jarvis.search.scorers.exact import ExactScorer
+from jarvis.search.scorers.fuzzy import FuzzyScorer
 
 
 class Matcher:
 
+    def __init__(self):
+
+        self.exact = ExactScorer()
+
+        self.alias = AliasScorer()
+
+        self.fuzzy = FuzzyScorer()
+
     def score(
         self,
-        query: str,
-        item: SearchItem,
-    ) -> float:
+        query,
+        item,
+    ):
 
-        query = query.lower().strip()
+        scores = [
 
-        name = item.name.lower()
-
-        #
-        # Coincidencia exacta
-        #
-
-        if query == name:
-
-            return 100
-
-        #
-        # Alias exacto
-        #
-
-        if query in [a.lower() for a in item.aliases]:
-
-            return 98
-
-        #
-        # Contenido
-        #
-
-        if query in name:
-
-            return 90
-
-        #
-        # Contenido en alias
-        #
-
-        for alias in item.aliases:
-
-            if query in alias.lower():
-
-                return 88
-
-        #
-        # Similaridad difusa
-        #
-
-        best = SequenceMatcher(
-            None,
-            query,
-            name,
-        ).ratio()
-
-        for alias in item.aliases:
-
-            ratio = SequenceMatcher(
-                None,
+            self.exact.score(
                 query,
-                alias.lower(),
-            ).ratio()
+                item.name,
+            ),
 
-            best = max(best, ratio)
+            self.alias.score(
+                query,
+                item.aliases,
+            ),
 
-        return best * 80
+            self.fuzzy.score(
+                query,
+                item.name,
+            ),
+        ]
+
+        for alias in item.aliases:
+
+            scores.append(
+
+                self.fuzzy.score(
+                    query,
+                    alias,
+                )
+            )
+
+        return max(scores)

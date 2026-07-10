@@ -5,6 +5,7 @@ from jarvis.platforms.discovery.factory import DiscoveryFactory
 
 from jarvis.resources.repository import ResourceRepository
 
+from jarvis.search.filters.application_filter import ApplicationFilter
 from jarvis.search.index import SearchIndex
 from jarvis.search.item import SearchItem
 
@@ -35,6 +36,11 @@ class DesktopLoader:
             )
 
             repository.add(resource)
+
+            self.filter = ApplicationFilter()
+
+            if not self.filter.allow(app):
+                continue
 
             index.add(
 
