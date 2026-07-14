@@ -1,39 +1,38 @@
-from jarvis.resources.repository import ResourceRepository
+from jarvis.search.index_builder import SearchIndexBuilder
 
-from jarvis.search.index import SearchIndex
 from jarvis.search.ranking import Ranking
 
-from jarvis.search.loaders.knowledge_loader import (
-    KnowledgeLoader,
+from jarvis.search.rewriter.query_rewriter import (
+    QueryRewriter,
 )
 
-from jarvis.search.loaders.desktop_loader import (
-    DesktopLoader,
+from jarvis.search.selectors.candidate_selector import (
+    CandidateSelector,
 )
+
+from jarvis.search.filesystem.search_engine import (
+    FilesystemSearchEngine,
+)
+
+from jarvis.search.pipeline import SearchPipeline
 
 
 class SearchEngine:
 
     def __init__(self):
 
-        self.ranking = Ranking()
+        self.index, self.repository = SearchIndexBuilder().build()
+        self.files = FilesystemSearchEngine()
 
-        self.index = SearchIndex()
+        #
+        # componentes del buscador
+        #
 
-        self.repository = ResourceRepository()
-
-        KnowledgeLoader().load(
-
-            self.index,
-
-            self.repository,
-        )
-
-        DesktopLoader().load(
-
-            self.index,
-
-            self.repository,
+        self.pipeline = SearchPipeline(
+            rewriter=QueryRewriter(),
+            ranking=Ranking(),
+            selector=CandidateSelector(),
+            repository=self.repository,
         )
 
     def search(
@@ -42,45 +41,34 @@ class SearchEngine:
         context: str = "",
     ):
 
-        return self.ranking.rank(
+        return self.pipeline.search(
             query=query,
             items=self.index.all(),
             context=context,
         )
-
-    def get_resource(self, resource_id):
-
-        return self.repository.get(resource_id)
-
-    def best(
-        self,
-        query: str,
-        context: str = "",
-    ):
-
-        results = self.search(
-            query,
-            context,
-        )
-
-        if not results:
-            return None
-
-        return results[0]
 
     def resolve(
         self,
         query: str,
         context: str = "",
     ):
-        result = self.best(
-            query,
-            context,
+
+        return self.pipeline.resolve(
+            query=query,
+            items=self.index.all(),
+            context=context,
         )
 
-        if result is None:
-            return None
+    def get_resource(
+        self,
+        resource_id: str,
+    ):
 
-        return self.repository.get(
-            result.item.resource_id
-        )
+        return self.repository.get(resource_id)
+
+    def search_file(
+        self,
+        query,
+    ):
+
+        return self.files.search(query)

@@ -1,19 +1,21 @@
 from rapidfuzz import fuzz
 
+from jarvis.search.scorers.scorer import Scorer
 
-class FuzzyScorer:
+
+class FuzzyScorer(Scorer):
 
     def score(
         self,
-        query: str,
-        text: str,
-    ) -> float:
+        query,
+        candidate,
+    ):
 
-        if not query or not text:
+        if not query or not candidate:
             return 0
 
         return max(
-            fuzz.ratio(query, text),
-            fuzz.partial_ratio(query, text),
-            fuzz.token_sort_ratio(query, text),
+            fuzz.ratio(query, candidate),
+            fuzz.partial_ratio(query, candidate),
+            fuzz.token_sort_ratio(query, candidate),
         )

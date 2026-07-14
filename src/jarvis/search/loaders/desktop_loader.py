@@ -5,7 +5,10 @@ from jarvis.platforms.discovery.factory import DiscoveryFactory
 
 from jarvis.resources.repository import ResourceRepository
 
-from jarvis.search.filters.application_filter import ApplicationFilter
+from jarvis.search.indexers.application_indexer import (
+    ApplicationIndexer,
+)
+
 from jarvis.search.index import SearchIndex
 from jarvis.search.item import SearchItem
 
@@ -15,6 +18,8 @@ class DesktopLoader:
     def __init__(self):
 
         self.repository = DiscoveryFactory.create()
+
+        self.indexer = ApplicationIndexer()
 
     def load(
         self,
@@ -37,19 +42,12 @@ class DesktopLoader:
 
             repository.add(resource)
 
-            self.filter = ApplicationFilter()
+            item = self.indexer.index(
+                app,
+                resource,
+            )
 
-            if not self.filter.allow(app):
+            if item is None:
                 continue
 
-            index.add(
-
-                SearchItem(
-
-                    resource_id=resource.id,
-
-                    name=app.name,
-
-                    aliases=app.aliases,
-                )
-            )
+            index.add(item)

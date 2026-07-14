@@ -38,14 +38,6 @@ class Ranking:
                 )
             )
 
-            results.append(
-                SearchResult(
-                    item=item,
-                    score=score,
-                    confidence=self.confidence(score),
-                )
-            )
-
         results.sort(
             key=lambda r: r.score,
             reverse=True,

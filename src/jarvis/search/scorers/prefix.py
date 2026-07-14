@@ -1,7 +1,7 @@
 from jarvis.search.scorers.scorer import Scorer
 
 
-class ExactScorer(Scorer):
+class PrefixScorer(Scorer):
 
     def score(
         self,
@@ -9,7 +9,7 @@ class ExactScorer(Scorer):
         candidate,
     ):
 
-        if query == candidate:
-            return 100
+        if candidate.startswith(query):
+            return 95
 
         return 0

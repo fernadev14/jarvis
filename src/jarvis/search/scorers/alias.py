@@ -1,10 +1,13 @@
-class AliasScorer:
+from jarvis.search.scorers.scorer import Scorer
+
+
+class AliasScorer(Scorer):
 
     def score(
         self,
-        query: str,
-        aliases: list[str],
-    ) -> float:
+        query,
+        aliases,
+    ):
 
         if query in aliases:
             return 100

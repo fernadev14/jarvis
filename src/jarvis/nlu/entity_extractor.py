@@ -3,31 +3,6 @@ from jarvis.models.token_kind import TokenKind
 
 class EntityExtractor:
 
-    STOP_WORDS = {
-        "el",
-        "la",
-        "los",
-        "las",
-        "de",
-        "del",
-        "por",
-        "favor",
-        "puedes",
-        "podrias",
-        "quisiera",
-        "quiero",
-        "me",
-        "abre",
-        "abrir",
-        "abreme",
-        "abrime",
-    }
-
-    TOOL_WORDS = {
-        "en",
-        "con",
-    }
-
     TOOL_CONNECTORS = {
         "en",
         "con",
@@ -35,6 +10,9 @@ class EntityExtractor:
 
     LOCATION_CONNECTORS = {
         "desde",
+        "en",
+        "dentro",
+        "de",
     }
 
     def extract(self, tokens):
@@ -51,11 +29,8 @@ class EntityExtractor:
 
             word = token.normalized
 
-            if word in self.STOP_WORDS:
-                continue
-
             #
-            # cambiar de modo
+            # conectores
             #
 
             if word in self.TOOL_CONNECTORS:
@@ -69,15 +44,11 @@ class EntityExtractor:
                 continue
 
             #
-            # ignorar verbos
+            # ignorar verbos y contexto
             #
 
             if token.kind == TokenKind.VERB:
                 continue
-
-            #
-            # contexto
-            #
 
             if token.kind == TokenKind.CONTEXT:
                 continue
@@ -91,14 +62,12 @@ class EntityExtractor:
                 target.append(word)
 
             #
-            # navegador
+            # herramienta
             #
 
             elif mode == "tool":
 
-                if token.kind == TokenKind.NOUN:
-
-                    tool = word
+                tool = word
 
             #
             # ubicación
@@ -106,9 +75,7 @@ class EntityExtractor:
 
             elif mode == "location":
 
-                if token.kind == TokenKind.NOUN:
-
-                    location = word
+                location = word
 
         return {
             "target": " ".join(target),
