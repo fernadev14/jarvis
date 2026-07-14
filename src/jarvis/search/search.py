@@ -1,4 +1,4 @@
-from jarvis.search.index_builder import SearchIndexBuilder
+from jarvis.search.search_index_builder import SearchIndexBuilder
 
 from jarvis.search.ranking import Ranking
 

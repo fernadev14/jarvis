@@ -1,28 +1,28 @@
-from jarvis.core.brain import Brain
-from jarvis.nlu.language_understanding import LanguageUnderstanding
-from jarvis.skills.manager import SkillManager
+from jarvis.core.executor import Executor
+
+from jarvis.nlu.language_understanding import (
+    LanguageUnderstanding,
+)
 
 
 class Assistant:
 
     def __init__(self):
 
-        self.brain = Brain()
-
         self.nlu = LanguageUnderstanding()
 
-        self.skills = SkillManager()
+        self.executor = Executor()
 
-    def chat(self, message: str):
+    def chat(
+        self,
+        message,
+    ):
 
-        understanding = self.nlu.understand(message)
+        understanding = self.nlu.understand(
+            message,
+        )
 
-        skill = self.skills.find(understanding)
-
-        if skill:
-
-            result = skill.execute(understanding)
-
-            return result.message
-
-        return self.brain.ask(message)
+        return self.executor.execute(
+            understanding,
+            message,
+        )

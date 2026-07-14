@@ -40,8 +40,6 @@ class DesktopLoader:
                 executable=app.executable,
             )
 
-            repository.add(resource)
-
             item = self.indexer.index(
                 app,
                 resource,
@@ -49,5 +47,7 @@ class DesktopLoader:
 
             if item is None:
                 continue
+
+            repository.add(resource)
 
             index.add(item)
