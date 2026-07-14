@@ -13,14 +13,17 @@ from jarvis.search.providers.knowledge_provider import (
 
 class ProviderRegistry:
 
+    def __init__(self):
+
+        self._providers = []
+
+    def register(
+        self,
+        provider,
+    ):
+
+        self._providers.append(provider)
+
     def providers(self):
 
-        return [
-
-            KnowledgeProvider(),
-
-            DesktopProvider(),
-
-            FilesystemProvider(),
-
-        ]
+        return self._providers

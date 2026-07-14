@@ -2,12 +2,12 @@ from abc import ABC
 from abc import abstractmethod
 
 
-class SearchProvider(ABC):
+class SearchIndexer(ABC):
 
     @abstractmethod
-    def load(
+    def index(
         self,
-        index,
-        repository,
+        source,
+        resource,
     ):
         ...

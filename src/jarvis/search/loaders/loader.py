@@ -2,7 +2,7 @@ from abc import ABC
 from abc import abstractmethod
 
 
-class SearchProvider(ABC):
+class Loader(ABC):
 
     @abstractmethod
     def load(

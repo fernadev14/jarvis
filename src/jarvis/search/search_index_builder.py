@@ -1,14 +1,18 @@
-from jarvis.resources.repository import ResourceRepository
-
-from jarvis.search.index import SearchIndex
-
 from jarvis.search.providers.desktop_provider import (
     DesktopProvider,
+)
+
+from jarvis.search.providers.filesystem_provider import (
+    FilesystemProvider,
 )
 
 from jarvis.search.providers.knowledge_provider import (
     KnowledgeProvider,
 )
+
+from jarvis.resources.repository import ResourceRepository
+
+from jarvis.search.index import SearchIndex
 
 from jarvis.search.providers.registry import (
     ProviderRegistry,
@@ -23,9 +27,21 @@ class SearchIndexBuilder:
 
         repository = ResourceRepository()
 
-        providers = ProviderRegistry().providers()
+        registry = ProviderRegistry()
 
-        for provider in providers:
+        registry.register(
+            KnowledgeProvider(),
+        )
+
+        registry.register(
+            DesktopProvider(),
+        )
+
+        registry.register(
+            FilesystemProvider(),
+        )
+
+        for provider in registry.providers():
 
             provider.load(
                 index,
