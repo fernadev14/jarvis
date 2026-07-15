@@ -1,6 +1,8 @@
 from pathlib import Path
 
-from jarvis.search.filesystem.file_record import FileRecord
+from jarvis.search.filesystem.file_record_builder import (
+    FileRecordBuilder,
+)
 from jarvis.search.filesystem.ignore import IgnoreRules
 from jarvis.search.filesystem.file_index import FileIndex
 from jarvis.search.filesystem.filters.file_filter import FileFilter
@@ -11,7 +13,10 @@ class FileScanner:
     def __init__(self):
 
         self.ignore = IgnoreRules()
+
         self.file_filter = FileFilter()
+
+        self.builder = FileRecordBuilder()
 
     def scan(self, root):
 
@@ -71,19 +76,8 @@ class FileScanner:
 
                 records.append(
 
-                    FileRecord(
-
-                        name=entry.stem,
-
-                        path=str(entry),
-
-                        extension=entry.suffix.lower(),
-
-                        size=stat.st_size,
-
-                        modified=stat.st_mtime,
-
-                        is_directory=False,
+                    self.builder.build(
+                        entry,
                     )
 
                 )

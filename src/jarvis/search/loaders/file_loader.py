@@ -2,19 +2,23 @@ from jarvis.platforms.userdirs.user_directories import (
     UserDirectories,
 )
 
+from jarvis.search.filesystem.filesystem_indexer import (
+    FilesystemIndexer,
+)
+
 from jarvis.resources.repository import ResourceRepository
 
 from jarvis.search.filesystem.scanner import FileScanner
 
 from jarvis.search.index import SearchIndex
 
-from jarvis.search.indexers.file_indexer import (
-    FileIndexer,
-)
+# from jarvis.search.indexers.file_indexer import (
+#     FileIndexer,
+# )
 
-from jarvis.search.factories.resource_factory import (
-    ResourceFactory,
-)
+# from jarvis.search.factories.resource_factory import (
+#     ResourceFactory,
+# )
 
 
 class FileLoader:
@@ -25,9 +29,11 @@ class FileLoader:
 
         self.scanner = FileScanner()
 
-        self.indexer = FileIndexer()
+        self.indexer = FilesystemIndexer()
 
-        self.factory = ResourceFactory()
+        # self.indexer = FileIndexer()
+
+        # self.factory = ResourceFactory()
 
     def load(
         self,
@@ -41,14 +47,14 @@ class FileLoader:
 
         for record in files.all():
 
-            resource = self.factory.from_file(
+            resource, item = self.indexer.index(
                 record,
             )
 
-            repository.add(resource)
-
-            item = self.indexer.index(
+            repository.add(
                 resource,
             )
 
-            index.add(item)
+            index.add(
+                item,
+            )

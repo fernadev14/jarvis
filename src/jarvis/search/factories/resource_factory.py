@@ -4,7 +4,7 @@ from jarvis.models.resource_type import ResourceType
 
 class ResourceFactory:
 
-    def from_file(
+    def build(
         self,
         record,
     ):
