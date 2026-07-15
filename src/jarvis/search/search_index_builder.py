@@ -18,6 +18,10 @@ from jarvis.search.providers.registry import (
     ProviderRegistry,
 )
 
+from jarvis.search.lifecycle.lifecycle_manager import (
+    LifecycleManager,
+)
+
 
 class SearchIndexBuilder:
 
@@ -41,12 +45,18 @@ class SearchIndexBuilder:
             FilesystemProvider(),
         )
 
+        lifecycle = LifecycleManager()
+
         for provider in registry.providers():
 
-            provider.load(
-                index,
-                repository,
+            lifecycle.register(
+                provider,
             )
+
+        lifecycle.load(
+            index,
+            repository,
+        )
 
         return (
             index,
