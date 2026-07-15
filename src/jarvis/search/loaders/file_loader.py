@@ -1,6 +1,3 @@
-from jarvis.models.resource import Resource
-from jarvis.models.resource_type import ResourceType
-
 from jarvis.platforms.userdirs.user_directories import (
     UserDirectories,
 )
@@ -15,6 +12,10 @@ from jarvis.search.indexers.file_indexer import (
     FileIndexer,
 )
 
+from jarvis.search.factories.resource_factory import (
+    ResourceFactory,
+)
+
 
 class FileLoader:
 
@@ -25,6 +26,8 @@ class FileLoader:
         self.scanner = FileScanner()
 
         self.indexer = FileIndexer()
+
+        self.factory = ResourceFactory()
 
     def load(
         self,
@@ -38,15 +41,8 @@ class FileLoader:
 
         for record in files.all():
 
-            resource = Resource(
-
-                id=f"file:{record.path}",
-
-                name=record.name,
-
-                resource_type=ResourceType.FILE,
-
-                path=record.path,
+            resource = self.factory.from_file(
+                record,
             )
 
             repository.add(resource)
