@@ -2,7 +2,7 @@ from jarvis.search.loaders.desktop_loader import (
     DesktopLoader,
 )
 
-from jarvis.search.providers.provider import (
+from jarvis.search.providers.base_provider import (
     SearchProvider,
 )
 

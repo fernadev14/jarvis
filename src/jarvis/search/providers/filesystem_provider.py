@@ -4,8 +4,12 @@ from jarvis.search.index import SearchIndex
 
 from jarvis.search.loaders.file_loader import FileLoader
 
+from jarvis.search.providers.base_provider import (
+    SearchProvider,
+)
 
-class FilesystemProvider:
+
+class FilesystemProvider(SearchProvider):
 
     def __init__(self):
 
@@ -18,6 +22,6 @@ class FilesystemProvider:
     ):
 
         self.loader.load(
-            index=index,
-            repository=repository,
+            index,
+            repository,
         )

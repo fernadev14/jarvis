@@ -1,16 +1,3 @@
-from jarvis.search.providers.desktop_provider import (
-    DesktopProvider,
-)
-
-from jarvis.search.providers.filesystem_provider import (
-    FilesystemProvider,
-)
-
-from jarvis.search.providers.knowledge_provider import (
-    KnowledgeProvider,
-)
-
-
 class ProviderRegistry:
 
     def __init__(self):
@@ -21,6 +8,11 @@ class ProviderRegistry:
         self,
         provider,
     ):
+
+        for current in self._providers:
+
+            if type(current) is type(provider):
+                return
 
         self._providers.append(provider)
 
