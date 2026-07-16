@@ -1,5 +1,3 @@
-from jarvis.search.search_index_builder import SearchIndexBuilder
-
 from jarvis.search.ranking import Ranking
 
 from jarvis.search.rewriter.query_rewriter import (
@@ -10,21 +8,21 @@ from jarvis.search.selectors.candidate_selector import (
     CandidateSelector,
 )
 
-from jarvis.search.filesystem.search_engine import (
-    FilesystemSearchEngine,
-)
-
 from jarvis.search.pipeline import SearchPipeline
+
+from jarvis.search.search_runtime import (
+    SearchRuntime,
+)
 
 
 class SearchEngine:
 
     def __init__(self):
 
-        self.context = SearchIndexBuilder().build()
+        self.runtime = SearchRuntime()
+        self.context = self.runtime.start()
         self.index = self.context.index
         self.repository = self.context.repository
-        self.files = FilesystemSearchEngine()
 
         #
         # componentes del buscador
@@ -74,3 +72,7 @@ class SearchEngine:
     ):
 
         return self.files.search(query)
+
+    def stop(self):
+
+        self.runtime.stop()
