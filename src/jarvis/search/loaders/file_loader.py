@@ -12,14 +12,6 @@ from jarvis.search.filesystem.scanner import FileScanner
 
 from jarvis.search.index import SearchIndex
 
-# from jarvis.search.indexers.file_indexer import (
-#     FileIndexer,
-# )
-
-# from jarvis.search.factories.resource_factory import (
-#     ResourceFactory,
-# )
-
 
 class FileLoader:
 
@@ -31,14 +23,9 @@ class FileLoader:
 
         self.indexer = FilesystemIndexer()
 
-        # self.indexer = FileIndexer()
-
-        # self.factory = ResourceFactory()
-
     def load(
         self,
-        index: SearchIndex,
-        repository: ResourceRepository,
+        service,
     ):
 
         files = self.scanner.index(
@@ -51,10 +38,7 @@ class FileLoader:
                 record,
             )
 
-            repository.add(
+            service.add(
                 resource,
-            )
-
-            index.add(
                 item,
             )

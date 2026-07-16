@@ -1,7 +1,3 @@
-from jarvis.resources.repository import ResourceRepository
-
-from jarvis.search.index import SearchIndex
-
 from jarvis.search.loaders.file_loader import FileLoader
 
 from jarvis.search.providers.base_provider import (
@@ -17,11 +13,9 @@ class FilesystemProvider(SearchProvider):
 
     def load(
         self,
-        index: SearchIndex,
-        repository: ResourceRepository,
+        service,
     ):
 
         self.loader.load(
-            index,
-            repository,
+            service,
         )

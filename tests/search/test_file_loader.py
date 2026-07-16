@@ -1,26 +1,20 @@
-from jarvis.resources.repository import ResourceRepository
-
-from jarvis.search.index import SearchIndex
-
 from jarvis.search.loaders.file_loader import FileLoader
-
+from jarvis.search.index import SearchIndex
+from jarvis.resources.repository import ResourceRepository
+from jarvis.search.index_service import IndexService
 
 index = SearchIndex()
-
 repository = ResourceRepository()
+
+service = IndexService(
+    index=index,
+    repository=repository,
+)
 
 loader = FileLoader()
 
 loader.load(
-    index,
-    repository,
+    service,
 )
 
-print("----------------------------------")
-print("Items en el índice:", len(index.all()))
-print("Recursos:", len(repository.all()))
-print("----------------------------------")
-
-for item in index.all()[:20]:
-
-    print(item)
+print(len(index.all()))

@@ -7,6 +7,10 @@ from jarvis.search.filesystem.ignore import IgnoreRules
 from jarvis.search.filesystem.file_index import FileIndex
 from jarvis.search.filesystem.filters.file_filter import FileFilter
 
+from jarvis.search.filesystem.file_record_loader import (
+    FileRecordLoader,
+)
+
 
 class FileScanner:
 
@@ -17,6 +21,8 @@ class FileScanner:
         self.file_filter = FileFilter()
 
         self.builder = FileRecordBuilder()
+
+        self.record_loader = FileRecordLoader()
 
     def scan(self, root):
 
@@ -72,15 +78,15 @@ class FileScanner:
                 if not self.file_filter.allow(entry):
                     continue
 
-                stat = entry.stat()
-
-                records.append(
-
-                    self.builder.build(
-                        entry,
-                    )
-
+                record = self.record_loader.load(
+                    entry,
                 )
+
+                if record is not None:
+
+                    records.append(
+                        record,
+                    )
 
         except PermissionError:
             pass

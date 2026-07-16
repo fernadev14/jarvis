@@ -3,15 +3,9 @@ from jarvis.knowledge.registry import KnowledgeRegistry
 from jarvis.models.resource import Resource
 from jarvis.models.resource_type import ResourceType
 
-from jarvis.resources.repository import ResourceRepository
-
-
-from jarvis.search.index import SearchIndex
-
 from jarvis.search.indexers.knowledge_indexer import (
     KnowledgeIndexer,
 )
-# from jarvis.search.item import SearchItem
 
 
 class KnowledgeLoader:
@@ -23,8 +17,7 @@ class KnowledgeLoader:
 
     def load(
         self,
-        index: SearchIndex,
-        repository: ResourceRepository,
+        service,
     ):
 
         for item in self.registry.resources.values():
@@ -44,11 +37,12 @@ class KnowledgeLoader:
                 path=item.path,
             )
 
-            repository.add(resource)
+            search_item = self.indexer.index(
+                item,
+                resource,
+            )
 
-            index.add(
-                self.indexer.index(
-                    resource,
-                    item.aliases,
-                )
+            service.add(
+                resource,
+                search_item,
             )

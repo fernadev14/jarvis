@@ -3,14 +3,9 @@ from jarvis.models.resource_type import ResourceType
 
 from jarvis.platforms.discovery.factory import DiscoveryFactory
 
-from jarvis.resources.repository import ResourceRepository
-
 from jarvis.search.indexers.application_indexer import (
     ApplicationIndexer,
 )
-
-from jarvis.search.index import SearchIndex
-from jarvis.search.item import SearchItem
 
 
 class DesktopLoader:
@@ -23,8 +18,7 @@ class DesktopLoader:
 
     def load(
         self,
-        index: SearchIndex,
-        repository: ResourceRepository,
+        service,
     ):
 
         for app in self.repository.applications:
@@ -48,6 +42,7 @@ class DesktopLoader:
             if item is None:
                 continue
 
-            repository.add(resource)
-
-            index.add(item)
+            service.add(
+                resource,
+                item,
+            )

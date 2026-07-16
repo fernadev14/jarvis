@@ -15,11 +15,9 @@ class DesktopProvider(SearchProvider):
 
     def load(
         self,
-        index,
-        repository,
+        service,
     ):
 
         self.loader.load(
-            index,
-            repository,
+            service,
         )

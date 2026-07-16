@@ -5,12 +5,12 @@ class KnowledgeIndexer:
 
     def index(
         self,
+        item,
         resource,
-        aliases,
     ):
 
         return SearchItem(
             resource_id=resource.id,
             name=resource.name,
-            aliases=aliases,
+            aliases=item.aliases,
         )
