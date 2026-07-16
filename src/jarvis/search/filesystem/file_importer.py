@@ -25,7 +25,16 @@ class FileImporter:
         )
 
         if record is None:
-            return
+            return None
+
+        return self.load_record(
+            record,
+        )
+
+    def load_record(
+        self,
+        record,
+    ):
 
         return self.indexer.index(
             record,

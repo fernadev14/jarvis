@@ -11,7 +11,9 @@ class FilesystemIndexService:
         self,
         service,
     ):
+
         self.service = service
+
         self.importer = FileImporter()
 
     def _load(
@@ -19,14 +21,9 @@ class FilesystemIndexService:
         path: Path,
     ):
 
-        result = self.importer.load(
+        return self.importer.load(
             path,
         )
-
-        if result is None:
-            return None
-
-        return result
 
     def created(
         self,

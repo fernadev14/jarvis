@@ -2,15 +2,11 @@ from jarvis.platforms.userdirs.user_directories import (
     UserDirectories,
 )
 
-from jarvis.search.filesystem.filesystem_indexer import (
-    FilesystemIndexer,
-)
-
-from jarvis.resources.repository import ResourceRepository
-
 from jarvis.search.filesystem.scanner import FileScanner
 
-from jarvis.search.index import SearchIndex
+from jarvis.search.filesystem.file_importer import (
+    FileImporter,
+)
 
 
 class FileLoader:
@@ -21,7 +17,7 @@ class FileLoader:
 
         self.scanner = FileScanner()
 
-        self.indexer = FilesystemIndexer()
+        self.importer = FileImporter()
 
     def load(
         self,
@@ -34,9 +30,14 @@ class FileLoader:
 
         for record in files.all():
 
-            resource, item = self.indexer.index(
+            result = self.importer.load_record(
                 record,
             )
+
+            if result is None:
+                continue
+
+            resource, item = result
 
             service.add(
                 resource,
