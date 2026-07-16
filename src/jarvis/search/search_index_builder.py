@@ -22,6 +22,7 @@ from jarvis.search.providers.knowledge_provider import (
 from jarvis.search.providers.registry import (
     ProviderRegistry,
 )
+from jarvis.search.search_context import SearchContext
 
 
 class SearchIndexBuilder:
@@ -50,7 +51,8 @@ class SearchIndexBuilder:
             service,
         )
 
-        return (
-            index,
-            repository,
+        return SearchContext(
+            index=index,
+            repository=repository,
+            service=service,
         )

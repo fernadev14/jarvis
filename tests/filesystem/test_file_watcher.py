@@ -1,23 +1,20 @@
 from time import sleep
 
-from jarvis.resources.repository import ResourceRepository
-
-from jarvis.search.index import SearchIndex
-from jarvis.search.index_service import IndexService
-
-from jarvis.search.filesystem.filesystem_index_service import (
-    FilesystemIndexService,
+from jarvis.resources.repository import (
+    ResourceRepository,
 )
 
-from jarvis.search.filesystem.watchers.file_watcher import (
-    FileWatcher,
+from jarvis.search.index import (
+    SearchIndex,
 )
 
-from jarvis.platforms.userdirs.user_directories import (
-    UserDirectories,
+from jarvis.search.index_service import (
+    IndexService,
 )
 
-directories = UserDirectories()
+from jarvis.search.filesystem.filesystem_runtime import (
+    FilesystemRuntime,
+)
 
 index = SearchIndex()
 
@@ -28,16 +25,11 @@ service = IndexService(
     repository=repository,
 )
 
-filesystem = FilesystemIndexService(
-    service,
+runtime = FilesystemRuntime(
+    service=service,
 )
 
-watcher = FileWatcher(
-    directory=directories.documents(),
-    updater=filesystem,
-)
-
-watcher.start()
+runtime.start()
 
 print("Watcher iniciado")
 print("Crea, modifica o elimina un archivo en Documents")
@@ -50,4 +42,4 @@ try:
 
 except KeyboardInterrupt:
 
-    watcher.stop()
+    runtime.stop()

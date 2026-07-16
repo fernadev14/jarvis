@@ -21,7 +21,9 @@ class SearchEngine:
 
     def __init__(self):
 
-        self.index, self.repository = SearchIndexBuilder().build()
+        self.context = SearchIndexBuilder().build()
+        self.index = self.context.index
+        self.repository = self.context.repository
         self.files = FilesystemSearchEngine()
 
         #
