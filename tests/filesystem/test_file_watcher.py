@@ -5,8 +5,8 @@ from jarvis.resources.repository import ResourceRepository
 from jarvis.search.index import SearchIndex
 from jarvis.search.index_service import IndexService
 
-from jarvis.search.filesystem.updaters.filesystem_updater import (
-    FilesystemUpdater,
+from jarvis.search.filesystem.filesystem_index_service import (
+    FilesystemIndexService,
 )
 
 from jarvis.search.filesystem.watchers.file_watcher import (
@@ -28,13 +28,13 @@ service = IndexService(
     repository=repository,
 )
 
-updater = FilesystemUpdater(
+filesystem = FilesystemIndexService(
     service,
 )
 
 watcher = FileWatcher(
     directory=directories.documents(),
-    updater=updater,
+    updater=filesystem,
 )
 
 watcher.start()

@@ -1,25 +1,22 @@
+from pathlib import Path
+
 from jarvis.search.filesystem.file_importer import (
     FileImporter,
 )
 
 
-class FileIndexUpdater:
+class FilesystemIndexService:
 
     def __init__(
         self,
         service,
     ):
-
         self.service = service
-
         self.importer = FileImporter()
 
-    # Metodo privado para cargar un archivo y
-    # devolver el resultado de la importación.
-    # Si el archivo no se puede cargar, devuelve None.
     def _load(
         self,
-        path,
+        path: Path,
     ):
 
         result = self.importer.load(
@@ -33,7 +30,7 @@ class FileIndexUpdater:
 
     def created(
         self,
-        path,
+        path: Path,
     ):
 
         result = self._load(
@@ -52,7 +49,7 @@ class FileIndexUpdater:
 
     def modified(
         self,
-        path,
+        path: Path,
     ):
 
         result = self._load(
@@ -71,7 +68,7 @@ class FileIndexUpdater:
 
     def deleted(
         self,
-        path,
+        path: Path,
     ):
 
         self.service.remove(

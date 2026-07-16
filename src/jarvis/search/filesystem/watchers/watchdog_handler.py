@@ -24,17 +24,27 @@ class WatchdogHandler(FileSystemEventHandler):
 
     def _dispatch(
         self,
-        event_type: FilesystemEventType,
-        path: str,
+        event_type,
+        path,
     ):
 
-        self.updater.update(
+        if event_type == FilesystemEventType.CREATED:
 
-            FilesystemEvent(
-                event=event_type,
-                path=Path(path),
+            self.updater.created(
+                Path(path),
             )
-        )
+
+        elif event_type == FilesystemEventType.MODIFIED:
+
+            self.updater.modified(
+                Path(path),
+            )
+
+        elif event_type == FilesystemEventType.DELETED:
+
+            self.updater.deleted(
+                Path(path),
+            )
 
     def on_created(
         self,
