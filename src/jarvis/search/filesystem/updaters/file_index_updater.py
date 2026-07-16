@@ -55,7 +55,7 @@ class FileIndexUpdater:
         path,
     ):
 
-        result = self.importer.load(
+        result = self._load(
             path,
         )
 
