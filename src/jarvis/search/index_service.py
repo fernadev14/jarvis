@@ -19,3 +19,30 @@ class IndexService:
     ):
         self.repository.add(resource)
         self.index.add(item)
+
+    def remove(
+        self,
+        resource_id,
+    ):
+
+        self.repository.remove(
+            resource_id,
+        )
+
+        self.index.remove(
+            resource_id,
+        )
+
+    def replace(
+        self,
+        resource,
+        item,
+    ):
+
+        self.repository.add(
+            resource,
+        )
+
+        self.index.replace(
+            item,
+        )

@@ -5,9 +5,14 @@ from jarvis.search.filesystem.updaters.file_index_updater import (
 
 class FilesystemUpdater:
 
-    def __init__(self):
+    def __init__(
+        self,
+        service,
+    ):
 
-        self.index = FileIndexUpdater()
+        self.index = FileIndexUpdater(
+            service,
+        )
 
     def update(
         self,

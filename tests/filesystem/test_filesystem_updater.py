@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from jarvis.resources.repository import ResourceRepository
+
 from jarvis.search.filesystem.events.filesystem_event import (
     FilesystemEvent,
 )
@@ -8,7 +10,22 @@ from jarvis.search.filesystem.updaters.filesystem_updater import (
     FilesystemUpdater,
 )
 
-updater = FilesystemUpdater()
+from jarvis.search.index import SearchIndex
+from jarvis.search.index_service import IndexService
+
+
+index = SearchIndex()
+
+repository = ResourceRepository()
+
+service = IndexService(
+    index=index,
+    repository=repository,
+)
+
+updater = FilesystemUpdater(
+    service,
+)
 
 events = [
 
