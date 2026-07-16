@@ -1,13 +1,38 @@
+from watchdog.observers import Observer
+
+from jarvis.search.filesystem.watchers.watchdog_handler import (
+    WatchdogHandler,
+)
+
+
 class FileWatcher:
 
-    def __init__(self):
+    def __init__(
+        self,
+        directory,
+        updater,
+    ):
 
-        self.running = False
+        self.directory = directory
+
+        self.observer = Observer()
+
+        self.handler = WatchdogHandler(
+            updater,
+        )
 
     def start(self):
 
-        self.running = True
+        self.observer.schedule(
+            self.handler,
+            self.directory,
+            recursive=True,
+        )
+
+        self.observer.start()
 
     def stop(self):
 
-        self.running = False
+        self.observer.stop()
+
+        self.observer.join()

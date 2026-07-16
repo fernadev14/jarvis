@@ -2,6 +2,10 @@ from jarvis.search.filesystem.updaters.file_index_updater import (
     FileIndexUpdater,
 )
 
+from jarvis.search.filesystem.events.filesystem_event_type import (
+    FilesystemEventType,
+)
+
 
 class FilesystemUpdater:
 
@@ -19,19 +23,19 @@ class FilesystemUpdater:
         event,
     ):
 
-        if event.event == "created":
+        if event.event == FilesystemEventType.CREATED:
 
             self.index.created(
                 event.path,
             )
 
-        elif event.event == "modified":
+        elif event.event == FilesystemEventType.MODIFIED:
 
             self.index.modified(
                 event.path,
             )
 
-        elif event.event == "deleted":
+        elif event.event == FilesystemEventType.DELETED:
 
             self.index.deleted(
                 event.path,
