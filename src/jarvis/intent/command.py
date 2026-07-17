@@ -4,25 +4,44 @@ from abc import abstractmethod
 
 class Command(ABC):
 
-    prefix = ""
+    prefixes = []
 
     def matches(
         self,
         text: str,
     ):
 
-        return text.lower().startswith(
-            f"{self.prefix} ",
-        )
+        text = text.lower().strip()
+
+        for prefix in self.prefixes:
+
+            if text.startswith(
+                prefix + " ",
+            ):
+                return True
+
+        return False
 
     def argument(
         self,
         text: str,
     ):
 
-        return text.removeprefix(
-            f"{self.prefix} ",
-        ).strip()
+        text = text.strip()
+
+        lower = text.lower()
+
+        for prefix in self.prefixes:
+
+            if lower.startswith(
+                prefix + " ",
+            ):
+
+                return text[
+                    len(prefix):
+                ].strip()
+
+        return text
 
     @abstractmethod
     def execute(

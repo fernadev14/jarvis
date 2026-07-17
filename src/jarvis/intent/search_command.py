@@ -9,7 +9,11 @@ from jarvis.intent.intent_result import (
 
 class SearchCommand(Command):
 
-    prefix = "busca"
+    prefixes = [
+        "busca",
+        "buscar",
+        "encuentra",
+    ]
 
     def __init__(
         self,

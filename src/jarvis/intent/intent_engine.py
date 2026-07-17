@@ -2,12 +2,20 @@ from jarvis.intent.command_registry import (
     CommandRegistry,
 )
 
+from jarvis.intent.intent_result import (
+    IntentResult,
+)
+
 from jarvis.intent.open_command import (
     OpenCommand,
 )
 
 from jarvis.intent.search_command import (
     SearchCommand,
+)
+
+from jarvis.nlp.text_normalizer import (
+    TextNormalizer,
 )
 
 from jarvis.resources.launcher import (
@@ -29,6 +37,8 @@ class IntentEngine:
 
         self.launcher = ResourceLauncher()
 
+        self.normalizer = TextNormalizer()
+
         self.registry = CommandRegistry()
 
         self.registry.register(
@@ -49,7 +59,9 @@ class IntentEngine:
         text,
     ):
 
-        text = text.strip()
+        text = self.normalizer.normalize(
+            text,
+        )
 
         for command in self.registry.commands():
 
@@ -61,7 +73,10 @@ class IntentEngine:
                     text,
                 )
 
-        return None
+        return IntentResult(
+            success=False,
+            message="No entendí el comando.",
+        )
 
     def stop(
         self,

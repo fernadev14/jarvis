@@ -9,7 +9,26 @@ from jarvis.intent.intent_result import (
 
 class OpenCommand(Command):
 
-    prefix = "abre"
+    prefixes = [
+
+        "abre",
+        "abrir",
+
+        "ejecuta",
+        "ejecutar",
+
+        "inicia",
+        "iniciar",
+
+        "lanza",
+        "lanzar",
+
+        "corre",
+        "correr",
+
+        "arranca",
+        "arrancar",
+    ]
 
     def __init__(
         self,
